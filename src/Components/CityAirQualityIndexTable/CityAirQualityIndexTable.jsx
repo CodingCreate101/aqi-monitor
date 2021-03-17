@@ -13,7 +13,7 @@ const columns = [
     headerName: 'AQI',
     width: 80,
     type: 'number',
-    cellClassName: severityConditionedStyles,
+    cellClassName: ({ value }) => severityConditionedStyles(value),
   },
   {
     field: 'dateTime',

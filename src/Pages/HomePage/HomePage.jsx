@@ -19,8 +19,6 @@ function HomePage() {
     subscribeSocket(data => {
       const { updatedAQIHistory, formattedCurrentAQI } = getCurrentAndUpdatedHistoryAQI(data);
 
-      console.log(updatedAQIHistory, formattedCurrentAQI);
-
       setAppState({ current: [...formattedCurrentAQI], history: { ...updatedAQIHistory } });
 
       if (count > STOP_CONNECTION_AFTER) {

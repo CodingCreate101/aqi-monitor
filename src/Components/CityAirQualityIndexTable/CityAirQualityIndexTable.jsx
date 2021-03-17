@@ -22,12 +22,23 @@ const columns = [
     type: 'string',
   },
 ];
-function CityAirQualityIndexTable({ data }) {
+function CityAirQualityIndexTable({ data, selectionForComparison, setSelectedForComparison }) {
   const classes = useStyles();
+
   // Virtualized table
   return (
     <div style={{ width: 450 }} className={classes.root}>
-      <DataGrid autoHeight rows={data} columns={columns} pageSize={15} checkboxSelection />
+      <DataGrid
+        onSelectionModelChange={newSelection => {
+          setSelectedForComparison(newSelection.selectionModel);
+        }}
+        selectionModel={selectionForComparison}
+        autoHeight
+        rows={data}
+        columns={columns}
+        pageSize={15}
+        checkboxSelection
+      />
     </div>
   );
 }

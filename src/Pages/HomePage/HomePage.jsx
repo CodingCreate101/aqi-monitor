@@ -5,11 +5,11 @@ import { subscribeSocket, unsubscribeSocket } from '../../Data/socket';
 import ConnectionController from '../../Components/ConnectionController/ConnectionController';
 import parseSocketDataWithState from '../../Services/parseSocket';
 import CityAirQualityIndexTable from '../../Components/CityAirQualityIndexTable/CityAirQualityIndexTable';
+import CityAQIComparisonGraph from '../../Components/CityAQIComparisonGraph/CityAQIComparisonGraph';
 
 let count = 0;
 const STOP_CONNECTION_AFTER = 10;
-
-const getCurrentAndUpdatedHistoryAQI = parseSocketDataWithState();
+const getConsumableData = parseSocketDataWithState();
 
 function HomePage() {
   const [isSocketConnected, setIsSocketConnected] = useState(true);
@@ -18,15 +18,14 @@ function HomePage() {
     history: {},
   });
 
+  const [selectedForComparison, setSelectedForComparison] = useState([]);
+
   const startSocketConnection = () => {
     console.log('start');
     subscribeSocket(data => {
-      const { updatedAQIHistory, formattedCurrentAQI } = getCurrentAndUpdatedHistoryAQI(data);
-
+      const { updatedAQIHistory, formattedCurrentAQI } = getConsumableData(data);
       console.log('On Message');
-
       setAppState({ current: [...formattedCurrentAQI], history: { ...updatedAQIHistory } });
-
       if (count > STOP_CONNECTION_AFTER) {
         stopSocketConnection();
       } else {
@@ -51,15 +50,26 @@ function HomePage() {
   }, []);
   return (
     <Container maxWidth="lg">
-      <Grid container direction="row" justify="center" alignItems="center"></Grid>
-      <Grid order={1} item xs={12} lg={12} container justify="center">
-        <CityAirQualityIndexTable data={appState.current} />
+      <Grid container direction="row" justify="center" alignItems="center">
+        <Grid order={1} item xs={12} lg={5} container justify="center">
+          <CityAirQualityIndexTable
+            data={appState.current}
+            selectedForComparison={selectedForComparison}
+            setSelectedForComparison={setSelectedForComparison}
+          />
+          <ConnectionController
+            state={isSocketConnected}
+            toConnect={startSocketConnection}
+            toDisconnect={stopSocketConnection}
+          />
+        </Grid>
+        <Grid order={3} item xs={12} lg={4} container justify="center">
+          <CityAQIComparisonGraph
+            data={appState.history}
+            selectedForComparison={selectedForComparison}
+          />
+        </Grid>
       </Grid>
-      <ConnectionController
-        state={isSocketConnected}
-        toConnect={startSocketConnection}
-        toDisconnect={stopSocketConnection}
-      />
     </Container>
   );
 }

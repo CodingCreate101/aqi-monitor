@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { subscribeSocket, unsubscribeSocket } from '../../Data/socket';
+import ConnectionController from '../../Components/ConnectionController/ConnectionController';
 
 let count = 0;
 const STOP_CONNECTION_AFTER = 10;
@@ -35,6 +36,11 @@ function HomePage() {
     <div>
       <h2>Home Page</h2>
       {isSocketConnected ? 'Connected' : 'Not connected'}
+      <ConnectionController
+        state={isSocketConnected}
+        toConnect={startSocketConnection}
+        toDisconnect={stopSocketConnection}
+      />
     </div>
   );
 }

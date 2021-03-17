@@ -7,7 +7,7 @@ export const initiateSocketConnection = () => {
 };
 
 export const subscribeSocket = callback => {
-  if (!client) {
+  if (!client || client.readyState === 3) {
     initiateSocketConnection();
   }
 

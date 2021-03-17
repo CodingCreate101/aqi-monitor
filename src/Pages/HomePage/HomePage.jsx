@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import { subscribeSocket, unsubscribeSocket } from '../../Data/socket';
 import ConnectionController from '../../Components/ConnectionController/ConnectionController';
 import parseSocketDataWithState from '../../Services/parseSocket';
+import CityAirQualityIndexTable from '../../Components/CityAirQualityIndexTable/CityAirQualityIndexTable';
 
 let count = 0;
 const STOP_CONNECTION_AFTER = 10;
@@ -16,8 +19,11 @@ function HomePage() {
   });
 
   const startSocketConnection = () => {
+    console.log('start');
     subscribeSocket(data => {
       const { updatedAQIHistory, formattedCurrentAQI } = getCurrentAndUpdatedHistoryAQI(data);
+
+      console.log('On Message');
 
       setAppState({ current: [...formattedCurrentAQI], history: { ...updatedAQIHistory } });
 
@@ -44,15 +50,17 @@ function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div>
-      <h2>Home Page</h2>
-      {isSocketConnected ? 'Connected' : 'Not connected'}
+    <Container maxWidth="lg">
+      <Grid container direction="row" justify="center" alignItems="center"></Grid>
+      <Grid order={1} item xs={12} lg={12} container justify="center">
+        <CityAirQualityIndexTable data={appState.current} />
+      </Grid>
       <ConnectionController
         state={isSocketConnected}
         toConnect={startSocketConnection}
         toDisconnect={stopSocketConnection}
       />
-    </div>
+    </Container>
   );
 }
 

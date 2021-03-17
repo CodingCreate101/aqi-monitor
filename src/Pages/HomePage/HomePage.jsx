@@ -6,12 +6,15 @@ import ConnectionController from '../../Components/ConnectionController/Connecti
 import parseSocketDataWithState from '../../Services/parseSocket';
 import CityAirQualityIndexTable from '../../Components/CityAirQualityIndexTable/CityAirQualityIndexTable';
 import CityAQIComparisonGraph from '../../Components/CityAQIComparisonGraph/CityAQIComparisonGraph';
+import MonitorSingleCity from '../../Components/MonitorSingleCity/MonitorSingleCity';
+import useStyles from './HomePageStyles';
 
 let count = 0;
 const STOP_CONNECTION_AFTER = 10;
 const getConsumableData = parseSocketDataWithState();
 
 function HomePage() {
+  const classes = useStyles();
   const [isSocketConnected, setIsSocketConnected] = useState(true);
   const [appState, setAppState] = useState({
     current: [],
@@ -51,11 +54,23 @@ function HomePage() {
   return (
     <Container maxWidth="lg">
       <Grid container direction="row" justify="center" alignItems="center">
+        <Grid item xs={12} lg={3} container justify="center" className={classes.singleCityView}>
+          <MonitorSingleCity
+            data={
+              appState.history[
+                selectedForComparison.length
+                  ? selectedForComparison[selectedForComparison.length - 1]
+                  : 0
+              ]
+            }
+          />
+        </Grid>
         <Grid order={1} item xs={12} lg={5} container justify="center">
           <CityAirQualityIndexTable
             data={appState.current}
             selectedForComparison={selectedForComparison}
             setSelectedForComparison={setSelectedForComparison}
+            className={classes.cityList}
           />
           <ConnectionController
             state={isSocketConnected}
@@ -67,6 +82,7 @@ function HomePage() {
           <CityAQIComparisonGraph
             data={appState.history}
             selectedForComparison={selectedForComparison}
+            className={classes.comparisonGraphs}
           />
         </Grid>
       </Grid>

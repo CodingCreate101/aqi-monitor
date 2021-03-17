@@ -9,14 +9,14 @@ import { makeStyles } from '@material-ui/core/styles';
 //* BG: #66bb6a | Text: #000   -     satisfactory (51–100)
 //* BG: #2e7d32 | Text: #fff   -     good (0–50)
 
-export const severityConditionedStyles = params =>
+export const severityConditionedStyles = param =>
   clsx('', {
-    severe: 401 <= params.value && params.value <= 500,
-    veryPoor: 301 <= params.value && params.value <= 400.999,
-    poor: 201 <= params.value && params.value <= 300.999,
-    moderate: 101 <= params.value && params.value <= 200.999,
-    satisfactory: 51 <= params.value && params.value <= 100.999,
-    good: 0 <= params.value && params.value <= 50.999,
+    severe: 401 <= param && param <= 500,
+    veryPoor: 301 <= param && param <= 400.999,
+    poor: 201 <= param && param <= 300.999,
+    moderate: 101 <= param && param <= 200.999,
+    satisfactory: 51 <= param && param <= 100.999,
+    good: 0 <= param && param <= 50.999,
   });
 
 export const useStyles = makeStyles({

@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { subscribeSocket, unsubscribeSocket } from '../../Data/socket';
 import ConnectionController from '../../Components/ConnectionController/ConnectionController';
+import parseSocketDataWithState from '../../Services/parseSocket';
 
 let count = 0;
 const STOP_CONNECTION_AFTER = 10;
 
+const getCurrentAndUpdatedHistoryAQI = parseSocketDataWithState();
+
 function HomePage() {
   const [isSocketConnected, setIsSocketConnected] = useState(true);
+  const [appState, setAppState] = useState({
+    current: [],
+    history: {},
+  });
 
   const startSocketConnection = () => {
     subscribeSocket(data => {
+      const { updatedAQIHistory, formattedCurrentAQI } = getCurrentAndUpdatedHistoryAQI(data);
+
+      setAppState({ current: [...formattedCurrentAQI], history: { ...updatedAQIHistory } });
+
       if (count > STOP_CONNECTION_AFTER) {
         stopSocketConnection();
       } else {

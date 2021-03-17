@@ -52,7 +52,7 @@ export default function currentAndUpdatedHistoryAQIWithState() {
       }
     });
 
-    //* Get latest AQP of all cities so far
+    //* Get latest AQI of all cities so far
     const latestData = Object.values(historyMap).map(item => {
       return {
         ...item,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
+import { severityConditionedStyles, useStyles } from './CityAirQualityIndexTableStyles';
 
 const columns = [
   {
@@ -12,6 +13,7 @@ const columns = [
     headerName: 'AQI',
     width: 80,
     type: 'number',
+    cellClassName: severityConditionedStyles,
   },
   {
     field: 'dateTime',
@@ -21,9 +23,10 @@ const columns = [
   },
 ];
 function CityAirQualityIndexTable({ data }) {
+  const classes = useStyles();
   // Virtualized table
   return (
-    <div style={{ width: 450 }}>
+    <div style={{ width: 450 }} className={classes.root}>
       <DataGrid autoHeight rows={data} columns={columns} pageSize={15} checkboxSelection />
     </div>
   );

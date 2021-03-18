@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import ReactTimeAgo from 'react-time-ago';
 import { severityConditionedStyles, useStyles } from './CityAirQualityIndexTableStyles';
@@ -27,13 +27,16 @@ const columns = [
 function CityAirQualityIndexTable({ data, selectionForComparison, setSelectedForComparison }) {
   const classes = useStyles();
 
+  const memoizedOnSelectionModelChange = useCallback(newSelection => {
+    setSelectedForComparison(newSelection.selectionModel);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Virtualized table
   return (
     <div style={{ width: 450 }} className={classes.root}>
       <DataGrid
-        onSelectionModelChange={newSelection => {
-          setSelectedForComparison(newSelection.selectionModel);
-        }}
+        onSelectionModelChange={memoizedOnSelectionModelChange}
         selectionModel={selectionForComparison}
         autoHeight
         rows={data}
@@ -45,4 +48,4 @@ function CityAirQualityIndexTable({ data, selectionForComparison, setSelectedFor
   );
 }
 
-export default CityAirQualityIndexTable;
+export default React.memo(CityAirQualityIndexTable);

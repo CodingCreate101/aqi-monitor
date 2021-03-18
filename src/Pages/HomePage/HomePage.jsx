@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { subscribeSocket, unsubscribeSocket } from '../../Data/socket';
@@ -23,6 +23,8 @@ function HomePage() {
   });
 
   const [selectedForComparison, setSelectedForComparison] = useState([]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedSetSelectedForComparison = useCallback(setSelectedForComparison, []);
 
   const startSocketConnection = () => {
     console.log('start');
@@ -71,7 +73,7 @@ function HomePage() {
           <CityAirQualityIndexTable
             data={appState.current}
             selectedForComparison={selectedForComparison}
-            setSelectedForComparison={setSelectedForComparison}
+            setSelectedForComparison={memoizedSetSelectedForComparison}
             className={classes.cityList}
           />
           <ConnectionController

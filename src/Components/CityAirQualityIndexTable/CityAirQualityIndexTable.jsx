@@ -1,5 +1,6 @@
 import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
+import ReactTimeAgo from 'react-time-ago';
 import { severityConditionedStyles, useStyles } from './CityAirQualityIndexTableStyles';
 
 const columns = [
@@ -20,6 +21,7 @@ const columns = [
     headerName: ' Last updated',
     width: 160,
     type: 'string',
+    renderCell: params => <ReactTimeAgo date={params.value} locale="en-US" />,
   },
 ];
 function CityAirQualityIndexTable({ data, selectionForComparison, setSelectedForComparison }) {

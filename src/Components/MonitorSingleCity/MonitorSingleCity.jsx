@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTimeAgo from 'react-time-ago';
 import {
   severityConditionedStyles,
   useStyles,
@@ -25,11 +26,14 @@ function MonitorSingleCity({ data }) {
       <h2>{city}</h2>
       {currentAQI ? (
         <>
-          <h3 style={{ fontSize: '3.5rem' }} className={quality}>
+          <h3 style={{ fontSize: '3.5rem', padding: 15 }} className={quality}>
             {currentAQI}
           </h3>
 
           <h3>Air Quality: {quality}</h3>
+          <h4>
+            Updated <ReactTimeAgo date={dateTime} locale="en-US" />
+          </h4>
         </>
       ) : null}
     </div>

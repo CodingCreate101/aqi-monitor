@@ -30,7 +30,9 @@ function MonitorSingleCity({ data }) {
             {currentAQI}
           </h3>
 
-          <h3>Air Quality: {quality}</h3>
+          <h3>
+            Air Quality is <em>{quality}</em>
+          </h3>
           <h4>
             Updated <ReactTimeAgo date={dateTime} locale="en-US" />
           </h4>

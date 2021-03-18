@@ -8,6 +8,7 @@ import CityAirQualityIndexTable from '../../Components/CityAirQualityIndexTable/
 import CityAQIComparisonGraph from '../../Components/CityAQIComparisonGraph/CityAQIComparisonGraph';
 import MonitorSingleCity from '../../Components/MonitorSingleCity/MonitorSingleCity';
 import useStyles from './HomePageStyles';
+import MoreDetails from '../../Components/MoreDetails/MoreDetails';
 
 let count = 0;
 const STOP_CONNECTION_AFTER = 10;
@@ -66,6 +67,7 @@ function HomePage() {
           />
         </Grid>
         <Grid order={1} item xs={12} lg={5} container justify="center">
+          <MoreDetails />
           <CityAirQualityIndexTable
             data={appState.current}
             selectedForComparison={selectedForComparison}

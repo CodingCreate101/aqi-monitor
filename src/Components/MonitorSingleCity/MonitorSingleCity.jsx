@@ -42,4 +42,4 @@ function MonitorSingleCity({ data }) {
   );
 }
 
-export default MonitorSingleCity;
+export default React.memo(MonitorSingleCity);
